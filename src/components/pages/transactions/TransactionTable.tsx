@@ -32,7 +32,7 @@ export default function TransactionTable({
                 </li>
                 {index !== currentTableData.length - 1 && (
                   <li className='py-4' role='separator'>
-                    <hr className='w-full h-[1px] bg-grey-100' />
+                    <hr className='w-full h-px bg-grey-100' />
                   </li>
                 )}
               </React.Fragment>

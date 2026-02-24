@@ -86,7 +86,7 @@ const Login = () => {
         className='flex flex-col justify-center flex-1'
         onSubmit={handleSubmit}
       >
-        <section className='bg-white flex flex-col gap-8 mx-4 px-5 py-6 justify-center rounded-lg md:mx-[6.5rem] md:px-8 md:py-8 xl:mx-[8.75rem] 2xl:mx-[17.5rem]'>
+        <section className='bg-white flex flex-col gap-8 mx-4 px-5 py-6 justify-center rounded-lg md:mx-26 md:px-8 md:py-8 xl:mx-35 2xl:mx-70'>
           <h2 className='text-preset-1'>Login</h2>
 
           {error && (

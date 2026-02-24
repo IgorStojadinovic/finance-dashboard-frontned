@@ -14,7 +14,7 @@ const ModalInput = ({
   type = 'number',
 }: ModalInputProps) => {
   return (
-    <div className='group inline-flex py-[0.75rem] px-5 h-full capitalize items-center justify-between gap-x-1.5 rounded-md bg-white font-semibold text-gray-900 ring-1 ring-gray-300 hover:bg-gray-50 '>
+    <div className='group inline-flex py-3 px-5 h-full capitalize items-center justify-between gap-x-1.5 rounded-md bg-white font-semibold text-gray-900 ring-1 ring-gray-300 hover:bg-gray-50 '>
       {type === 'number' && <p className='text-preset-4 text-grey-400'>$</p>}
       <Input
         onChange={onChange}
