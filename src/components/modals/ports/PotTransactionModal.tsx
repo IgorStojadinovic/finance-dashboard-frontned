@@ -23,7 +23,7 @@ export default function PotTransactionModal({
   currentPot,
   closeModal,
   modalType,
-}: PotTransactionModalProps): JSX.Element | null {
+}: PotTransactionModalProps): React.ReactElement | null {
   const defaultPot: Pot = {
     id: '',
     userId: '',

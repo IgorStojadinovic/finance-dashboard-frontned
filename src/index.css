@@ -1,37 +1,36 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+@import 'tailwindcss';
+@plugin 'flowbite/plugin';
+@plugin 'tailwind-scrollbar';
 .text-preset-1 {
-    @apply font-bold text-[2rem] leading-[120%];
+  @apply font-bold text-[2rem] leading-[120%];
 }
 
 .text-preset-2 {
-    @apply font-bold text-[1.25rem] leading-[120%];
+  @apply font-bold text-[1.25rem] leading-[120%];
 }
 
 .text-preset-3 {
-    @apply font-bold text-[1rem] leading-[150%];
+  @apply font-bold text-[1rem] leading-[150%];
 }
 
 .text-preset-4 {
-    @apply text-[0.875rem] leading-[150%];
+  @apply text-[0.875rem] leading-[150%];
 }
 
 .text-preset-4-bold {
-    @apply font-bold text-[0.875rem] leading-[150%];
+  @apply font-bold text-[0.875rem] leading-[150%];
 }
 
 .text-preset-5 {
-    @apply text-[0.75rem] leading-[150%];
+  @apply text-[0.75rem] leading-[150%];
 }
 
 .text-preset-5-bold {
-    @apply font-bold text-[0.75rem] leading-[150%];
+  @apply font-bold text-[0.75rem] leading-[150%];
 }
 
 .btn-dark {
-    @apply bg-grey-900 text-white py-4 flex items-center justify-center rounded-lg hover:bg-grey-500;
+  @apply bg-grey-900 text-white py-4 flex items-center justify-center rounded-lg hover:bg-grey-500;
 }
 
 .nav-sidebar {
