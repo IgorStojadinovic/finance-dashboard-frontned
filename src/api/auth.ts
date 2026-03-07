@@ -7,9 +7,7 @@ interface AuthData {
 
 export type AuthResponse = ApiResponse<AuthData>;
 
-//const API_BASE_URL = 'http://localhost:3000/api';
 const API_BASE_URL = import.meta.env.VITE_API_URL;
-//const API_DEV_URL = import.meta.env.VITE_DEV_API_URL;
 
 export const authApi = {
   register: async (data: {
