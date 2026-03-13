@@ -10,7 +10,7 @@ const ChartList = () => {
           return (
             <div
               key={index}
-              className='flex justify-between gap-4 pb-4 border-b last:border-b-0'
+              className='flex justify-between gap-4 pb-4 border-b border-grey-100 last:border-b-0'
             >
               <div className='flex gap-4'>
                 <div

@@ -21,4 +21,3 @@ export type TransactionListProps = {
 export type TransactionTableProps = {
   currentTableData: Transaction[];
 };
-

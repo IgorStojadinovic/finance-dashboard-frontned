@@ -10,7 +10,7 @@ const LatestTransactionCards = ({ budget }: LatestTransactionCardsProps) => {
       {budget?.latest_spending.map((transaction, index) => (
         <div
           key={index}
-          className='flex items-center justify-between p-3 border-b last:border-b-0'
+          className='flex items-center justify-between p-3 border-b-2 border-white last:border-b-0'
         >
           <div className='flex items-center gap-3'>
             <img
