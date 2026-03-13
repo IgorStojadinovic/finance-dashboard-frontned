@@ -56,7 +56,7 @@ const Navbar = () => {
         <img
           src={item.activeIcon}
           alt={item.name}
-          className='w-5 h-5 group-hover:brightness-0 group-hover:invert-[.35] group-hover:sepia group-hover:saturate-[3000%] group-hover:hue-rotate-[100deg]'
+          className='w-5 h-5 group-hover:brightness-0 group-hover:invert-[.35] group-hover:sepia group-hover:saturate-3000 group-hover:hue-rotate-100'
         />
       </Link>
       <div className='h-1 w-full bg-grey-900 absolute bottom-0 group-hover:bg-green' />
@@ -84,9 +84,9 @@ const Navbar = () => {
           src={item.activeIcon}
           alt={item.name}
           className={clsx('w-6 h-6', {
-            '[filter:brightness(0)_saturate(100%)_invert(39%)_sepia(19%)_saturate(1642%)_hue-rotate(140deg)_brightness(94%)_contrast(88%)]':
+            'filter-[brightness(0)_saturate(100%)_invert(39%)_sepia(19%)_saturate(1642%)_hue-rotate(140deg)_brightness(94%)_contrast(88%)]':
               pathname === item.path,
-            'group-hover:[filter:brightness(0)_saturate(100%)_invert(39%)_sepia(19%)_saturate(1642%)_hue-rotate(140deg)_brightness(94%)_contrast(88%)]':
+            'group-hover:filter-[brightness(0)_saturate(100%)_invert(39%)_sepia(19%)_saturate(1642%)_hue-rotate(140deg)_brightness(94%)_contrast(88%)]':
               pathname !== item.path,
           })}
         />

@@ -26,13 +26,10 @@ export default function Bills({ billsData }: BillsProps) {
 }
 
 function BillItem({ category, amount, color }: RecurringBillSummary) {
-  const className =
-    'bg-beige-100 py-5 px-4 rounded-lg flex justify-between border-l-4';
   return (
     <li
-      className={cn(className, {
-        [`border-l-${color}`]: color,
-      })}
+      className='bg-beige-100 py-5 px-4 rounded-lg flex justify-between border-l-4'
+      style={{ borderLeftColor: color }}
     >
       <span className='text-preset-4 capitalize'>{category}</span>
       <span className='text-preset-4-bold' data-testid='paid-bills-amount'>

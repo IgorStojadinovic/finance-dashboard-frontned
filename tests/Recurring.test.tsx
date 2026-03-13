@@ -5,7 +5,7 @@ import { userRecurringBills } from '../src/lib/lits';
 import { BrowserRouter } from 'react-router-dom';
 
 // Polyfill for ResizeObserver
-global.ResizeObserver = class {
+(globalThis as any).ResizeObserver = class {
   observe() {}
   unobserve() {}
   disconnect() {}
