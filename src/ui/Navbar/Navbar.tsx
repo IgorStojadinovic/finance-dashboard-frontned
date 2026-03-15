@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import LogoLarge from '../../assets/images/logo-large.svg';
 import LogoSmall from '../../assets/images/logo-small.svg';
 import { clsx } from 'clsx';
@@ -11,6 +11,7 @@ import potsActiveIcon from '../../assets/images/icon-nav-pots.svg';
 import recurringActiveIcon from '../../assets/images/icon-nav-recurring-bills.svg';
 import minimizeIcon from '../../assets/images/icon-minimize-menu.svg';
 import { useState } from 'react';
+import { useLogout } from '../../lib/hooks/useAuth';
 
 const navItems = [
   {
@@ -49,6 +50,19 @@ type NavItem = {
 const Navbar = () => {
   const { pathname } = useLocation();
   const [isMinimized, setIsMinimized] = useState(false);
+  const navigate = useNavigate();
+  const logout = useLogout();
+
+  const handleLogout = () => {
+    logout.mutate(undefined, {
+      onSuccess: () => navigate('/', { replace: true }),
+      onSettled: () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        navigate('/', { replace: true });
+      },
+    });
+  };
 
   const MobileNavItem = ({ item }: { item: NavItem }) => (
     <li className='relative w-1/3 h-10 flex flex-col items-center justify-center hover:bg-white rounded-t-lg group transition-all ease-in-out duration-100'>
@@ -167,12 +181,12 @@ const Navbar = () => {
             </button>
 
             <div>
-              <Link
-                to='/'
+              <button
+                onClick={handleLogout}
                 className={clsx(
                   'group flex items-center w-full rounded-r-lg gap-4 py-2 px-10',
                   'hover:bg-white border-l-4 border-l-grey-900 hover:border-l-green',
-                  'text-preset-3 text-grey-300 hover:text-grey-900',
+                  'text-preset-3 text-grey-300 hover:text-grey-900 cursor-pointer',
                   isMinimized &&
                     'py-0 px-0 h-10 flex items-center justify-center'
                 )}
@@ -182,7 +196,7 @@ const Navbar = () => {
                   className='group-hover:text-green'
                 />
                 {!isMinimized && <span>Logout</span>}
-              </Link>
+              </button>
 
               <a
                 href='https://github.com/IgorStojadinovic/finance-dashboard'

@@ -24,11 +24,11 @@ const Budget = () => {
   }
 
   return (
-    <div className='xl:flex-1 bg-beige-100 py-6 px-4 md:px-10 md:py-8 relative overflow-y-scroll'>
+    <div className='bg-beige-100 relative overflow-y-scroll px-4 py-6 md:px-10 md:py-8 xl:flex-1'>
       <PageHeder title='Budgets'>
         <AddNewModal type='budget' />
       </PageHeder>
-      <section className='flex flex-col mt-8 gap-6 xl:flex-row  '>
+      <section className='mt-8 flex flex-col gap-6 xl:flex-row'>
         <BudgetChart />
         <BudgetCard />
       </section>

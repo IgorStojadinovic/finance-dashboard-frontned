@@ -214,14 +214,14 @@ const AddNewModal = ({ type }: AddNewModalProps) => {
       >
         <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
           <div className='flex min-h-full items-center justify-center p-4'>
-            <DialogPanel className='w-full flex flex-col gap-5 max-w-md md:max-w-xl rounded-xl bg-white shadow-md p-6 md:p-8'>
+            <DialogPanel className='flex w-full max-w-md flex-col gap-5 rounded-xl bg-white p-6 shadow-md md:max-w-xl md:p-8'>
               <DialogTitle
                 as='h3'
-                className='text-preset-2 flex justify-between items-center'
+                className='text-preset-2 flex items-center justify-between'
               >
                 Add New {type === 'budget' ? 'Budget' : 'Pot'}
                 <XCircleIcon
-                  className='size-8 cursor-pointer text-grey-500'
+                  className='text-grey-500 size-8 cursor-pointer'
                   onClick={() => {
                     setAddBudgetModalOpen(false);
                     resetNewPot();
@@ -263,7 +263,7 @@ const AddNewModal = ({ type }: AddNewModalProps) => {
               </div>
               <div className='mt-4'>
                 <Button
-                  className='flex w-full justify-center items-center h-14 gap-2 rounded-md bg-grey-900 py-1.5 px-4 text-preset-4-bold text-white focus:outline-none'
+                  className='bg-grey-900 text-preset-4-bold flex h-14 w-full items-center justify-center gap-2 rounded-md px-4 py-1.5 text-white focus:outline-none'
                   onClick={handleCreateItem}
                 >
                   Add {type === 'budget' ? 'Budget' : 'Pot'}
@@ -281,7 +281,7 @@ const AddNewModal = ({ type }: AddNewModalProps) => {
     <>
       <Button
         onClick={() => setAddBudgetModalOpen(true)}
-        className='rounded-md text-preset-4-bold bg-grey-900 p-4 font-medium text-white'
+        className='text-preset-4-bold bg-grey-900 rounded-md p-4 font-medium text-white hover:cursor-pointer'
       >
         Add New {type === 'budget' ? 'Budget' : 'Pot'}
       </Button>
