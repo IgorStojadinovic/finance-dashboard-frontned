@@ -81,7 +81,7 @@ npm run preview
 
 ## Demo
 
-https://finance-dashboard-psi-sand.vercel.app/
+https://finance-dashboard-n7ab.onrender.com/
 
 ## Features
 
