@@ -1,7 +1,17 @@
 import { OverviewProps } from './home.types';
 
 export default function Overview({ currentBalance }: OverviewProps) {
-  const balance = currentBalance[0];
+  const balance = currentBalance?.[0];
+
+  if (!balance) {
+    return (
+      <section className='block-wapper xl:flex xl:flex-col gap-6' data-testid='overview-section'>
+        <h1 className='text-preset-1' id='overview-title'>Overview</h1>
+        <p>Loading balance...</p>
+      </section>
+    );
+  }
+
   return (
     <section
       className='block-wapper xl:flex xl:flex-col gap-6'

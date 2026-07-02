@@ -68,11 +68,11 @@ export const useLogin = (): UseMutationResult<
       return response;
     },
     onSuccess: data => {
-      console.log('Login response data:', data);
+      //console.log('Login response data:', data);
       if (data.success && data.data?.user) {
         localStorage.setItem('token', data.data.token);
         localStorage.setItem('user', JSON.stringify(data.data.user));
-        console.log('Login successful', data.data.user.name);
+        //console.log('Login successful', data.data.user.name);
       } else {
         console.error('Login response missing required data:', {
           success: data.success,

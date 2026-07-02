@@ -17,13 +17,13 @@ const Login = () => {
   const { mutate: login, isPending, error } = useLogin();
   const [formData, setFormData] = useState<Data>({
     email: 'exampleuser@example.com',
-    password: 'exampleuser84266+',
+    password: 'Test1234',
   });
   const [showPassword, setShowPassword] = useState(false);
 
   const notify = () => {
     toast('Hey!', {
-      duration: 4000,
+      duration: 10000,
       icon: '👋',
       style: {
         background: '#201F24',
@@ -31,7 +31,7 @@ const Login = () => {
       },
     });
     toast(
-      'Site is currently in development, you can login with test account.',
+      'Site is currently in development, you can login with this test account: exampleuser@example.com / Test1234',
       {
         style: {
           background: '#201F24',
