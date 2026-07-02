@@ -46,11 +46,11 @@ const EditCardButton = React.memo(({ item, type }: EditButtonProps) => {
           <MenuItems
             transition
             anchor='bottom end'
-            className='w-42 text-gray-900 ring-1 ring-grey-300 origin-top-right bg-white rounded-xl border border-white/5 shadow-md py-3 px-5 text-sm/6 transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0'
+            className='w-42 text-gray-900 ring-1 ring-grey-300 origin-top-right bg-white rounded-xl border border-white/5 shadow-md py-3 px-5 text-sm/6 transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-closed:scale-95 data-closed:opacity-0'
           >
             <MenuItem>
               <button
-                className='group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10'
+                className='group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-focus:bg-white/10'
                 onClick={() => handleEditClick()}
               >
                 Edit {type === 'budget' ? 'Budget' : 'Pot'}
@@ -59,7 +59,7 @@ const EditCardButton = React.memo(({ item, type }: EditButtonProps) => {
             <div className='my-1 h-px bg-gray-100' />
             <MenuItem>
               <button
-                className='group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10 text-red'
+                className='group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-focus:bg-white/10 text-red'
                 onClick={() => handleDeleteClick()}
               >
                 Delete {type === 'budget' ? 'Budget' : 'Pot'}

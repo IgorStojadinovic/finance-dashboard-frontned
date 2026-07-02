@@ -60,7 +60,7 @@ export default function Signup() {
         className='flex flex-col justify-center flex-1'
         onSubmit={handleSubmit}
       >
-        <div className='bg-white flex flex-col gap-8 mx-4 px-5 py-6  justify-center rounded-lg md:mx-[6.5rem] md:px-8 md:py-8  xl:mx-[8.75rem] 2xl:mx-[17.5rem]'>
+        <div className='bg-white flex flex-col gap-8 mx-4 px-5 py-6  justify-center rounded-lg md:mx-26 md:px-8 md:py-8  xl:mx-35 2xl:mx-70'>
           <h2 className='text-preset-1'>Signup</h2>
 
           {error && (

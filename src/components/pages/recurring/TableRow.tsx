@@ -18,7 +18,7 @@ export default function TableRow({
 }) {
   return (
     <tr
-      className='border-b last:border-b-0'
+      className='border-b border-grey-100 last:border-b-0'
       key={index}
       data-testid={`bill-item-${index}`}
     >

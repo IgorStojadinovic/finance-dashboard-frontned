@@ -23,7 +23,7 @@ export default function PotTransactionModal({
   currentPot,
   closeModal,
   modalType,
-}: PotTransactionModalProps): JSX.Element | null {
+}: PotTransactionModalProps): React.ReactElement | null {
   const defaultPot: Pot = {
     id: '',
     userId: '',
@@ -138,7 +138,7 @@ export default function PotTransactionModal({
                 <Label className='text-preset-5-bold text-grey-500'>
                   Amount to {modalType === 'add' ? 'add' : 'withdraw'}
                 </Label>
-                <fieldset className='group inline-flex py-[0.75rem] px-5 h-full capitalize items-center justify-between gap-x-1.5 rounded-md bg-white font-semibold text-gray-900 ring-1 ring-gray-300 hover:bg-gray-50'>
+                <fieldset className='group inline-flex py-3 px-5 h-full capitalize items-center justify-between gap-x-1.5 rounded-md bg-white font-semibold text-gray-900 ring-1 ring-gray-300 hover:bg-gray-50'>
                   <Input
                     value={amount}
                     type='number'

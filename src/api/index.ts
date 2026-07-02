@@ -8,7 +8,6 @@ import {
 } from '../lib/types/types';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
-/* const API_BASE_URL_DEV = import.meta.env.VITE_DEV_API_URL; */
 
 // Users API
 export const usersApi = {
@@ -119,9 +118,9 @@ export const budgetsApi = {
     fetch(`${API_BASE_URL}/budgets/user/${userId}`).then(res => res.json()),
 
   getByCategory: (userId: string, category: string): Promise<Budget[]> =>
-    fetch(
-      `${API_BASE_URL}/budgets/user/${userId}/category/${category}`
-    ).then(res => res.json()),
+    fetch(`${API_BASE_URL}/budgets/user/${userId}/category/${category}`).then(
+      res => res.json()
+    ),
 
   create: (data: NewBudget): Promise<Budget> =>
     fetch(`${API_BASE_URL}/budgets`, {

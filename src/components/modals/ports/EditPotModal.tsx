@@ -63,7 +63,7 @@ const EditPotModal = ({
       <Dialog
         open={isEditModalOpen}
         as='div'
-        className='relative z-[1000] focus:outline-none'
+        className='relative z-1000 focus:outline-none'
         onClose={() => {
           handleEditClick();
         }}
@@ -71,7 +71,7 @@ const EditPotModal = ({
         <ModalContainer>
           <DialogPanel
             transition
-            className='w-full flex flex-col gap-5 max-w-md md:max-w-xl rounded-xl bg-white shadow-md p-6 md:p-8 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0'
+            className='w-full flex flex-col gap-5 max-w-md md:max-w-xl rounded-xl bg-white shadow-md p-6 md:p-8 duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0'
           >
             <ModalTitle title='Edit Pot' setModalOpen={handleEditClick} />
             <ModalText text={Data.EditPot.text} />

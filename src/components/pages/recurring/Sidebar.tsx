@@ -5,7 +5,7 @@ export const Sidebar = () => {
   return (
     <article className='xl:w-1/2 flex flex-col gap-5 w-full md:flex-row xl:flex-col'>
       <section
-        className='flex items-center bg-grey-900 text-white rounded-lg p-5 py-6 md:flex-1 xl:h-1/2 xl:flex-grow-0'
+        className='flex items-center bg-grey-900 text-white rounded-lg p-5 py-6 md:flex-1 xl:h-1/2 xl:grow-0'
         role='contentinfo'
         aria-label='Total bills'
       >
@@ -16,7 +16,7 @@ export const Sidebar = () => {
         </div>
       </section>
       <section
-        className='flex flex-col bg-white p-5 rounded-lg gap-5 md:flex-1 xl:h-1/2 xl:flex-grow-0'
+        className='flex flex-col bg-white p-5 rounded-lg gap-5 md:flex-1 xl:h-1/2 xl:grow-0'
         role='region'
         aria-label='Summary'
       >

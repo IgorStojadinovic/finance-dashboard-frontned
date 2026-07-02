@@ -1,6 +1,5 @@
 import { Transaction } from '../lib/types';
 
-//const API_BASE_URL = 'http://localhost:3000/api';
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export const transactionsApi = {
@@ -11,7 +10,9 @@ export const transactionsApi = {
     fetch(`${API_BASE_URL}/transactions/${id}`).then(res => res.json()),
 
   getUserTransactions: (userId: string): Promise<Transaction[]> =>
-    fetch(`${API_BASE_URL}/transactions/user/${userId}`).then(res => res.json()),
+    fetch(`${API_BASE_URL}/transactions/user/${userId}`).then(res =>
+      res.json()
+    ),
 
   create: (data: Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>) =>
     fetch(`${API_BASE_URL}/transactions`, {
@@ -33,5 +34,7 @@ export const transactionsApi = {
     }).then(res => res.json()),
 
   sortByCategory: (category: string): Promise<Transaction[]> =>
-    fetch(`${API_BASE_URL}/transactions/category/${category}`).then(res => res.json()), 
+    fetch(`${API_BASE_URL}/transactions/category/${category}`).then(res =>
+      res.json()
+    ),
 };

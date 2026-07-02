@@ -6,7 +6,7 @@ import { categoriesMenu, sortMenu } from '../src/lib/lits';
 import React from 'react';
 
 // Polyfill for ResizeObserver
-global.ResizeObserver = class {
+(globalThis as any).ResizeObserver = class {
   observe() {}
   unobserve() {}
   disconnect() {}
