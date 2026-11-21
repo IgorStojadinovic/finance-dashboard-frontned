@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Logo from '../../assets/images/Logo.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import HidePasswordIcon from '../../assets/images/icon-hide-password.svg';
@@ -12,6 +12,11 @@ type Data = {
   password: string;
 };
 
+const API_ORIGIN = String(import.meta.env.VITE_API_URL ?? '').replace(
+  /\/api\/?$/,
+  ''
+);
+
 const Login = () => {
   const navigate = useNavigate();
   const { mutate: login, isPending, error } = useLogin();
@@ -20,6 +25,23 @@ const Login = () => {
     password: 'test1234',
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [serverWaking, setServerWaking] = useState(false);
+
+  useEffect(() => {
+    if (!API_ORIGIN) return;
+    const controller = new AbortController();
+    fetch(API_ORIGIN, { signal: controller.signal }).catch(() => {});
+    return () => controller.abort();
+  }, []);
+
+  useEffect(() => {
+    if (!isPending) {
+      setServerWaking(false);
+      return;
+    }
+    const timer = window.setTimeout(() => setServerWaking(true), 4000);
+    return () => window.clearTimeout(timer);
+  }, [isPending]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -116,6 +138,13 @@ const Login = () => {
             </div>
           </fieldset>
 
+          {serverWaking && (
+            <p className='text-preset-5 text-grey-500 bg-beige-100 rounded-lg px-4 py-3'>
+              The server was asleep and is starting up. The first login after
+              a break can take about a minute. Keep this page open.
+            </p>
+          )}
+
           <button
             type='submit'
             className={`btn-dark ${
@@ -123,7 +152,11 @@ const Login = () => {
             }`}
             disabled={isPending}
           >
-            {isPending ? 'Logging in...' : 'Login'}
+            {serverWaking
+              ? 'Starting server...'
+              : isPending
+                ? 'Logging in...'
+                : 'Login'}
           </button>
 
           <footer className='flex gap-2 items-center justify-center'>
