@@ -1,7 +1,21 @@
-import RecitIcon from '../../../assets/images/icon-nav-recurring-bills.svg';    
+import RecitIcon from '../../../assets/images/icon-nav-recurring-bills.svg';
+import { billTiming } from '../../../lib/recurringBillStatus';
+import { RecurringBill } from '../../../lib/types/types';
+import { formatMoney } from '../../../lib/utils';
 
+function sum(bills: RecurringBill[]) {
+  return bills.reduce((total, bill) => total + bill.amount, 0);
+}
 
-export const Sidebar = () => {
+function countAndTotal(bills: RecurringBill[]) {
+  return `${bills.length}(${formatMoney(sum(bills))})`;
+}
+
+export const Sidebar = ({ bills }: { bills: RecurringBill[] }) => {
+  const paid = bills.filter(bill => billTiming(bill) === 'paid');
+  const dueSoon = bills.filter(bill => billTiming(bill) === 'due');
+  const upcoming = bills.filter(bill => billTiming(bill) === 'upcoming');
+
   return (
     <article className='xl:w-1/2 flex flex-col gap-5 w-full md:flex-row xl:flex-col'>
       <section
@@ -12,7 +26,9 @@ export const Sidebar = () => {
         <img src={RecitIcon} alt='Recit Icon' className='w-10 mr-5' />
         <div className='flex flex-col gap-2'>
           <h2 className='text-preset-4'>Total bills</h2>
-          <span className='text-preset-1'>$384.98</span>
+          <span className='text-preset-1' data-testid='total-bills-amount'>
+            {formatMoney(sum(bills))}
+          </span>
         </div>
       </section>
       <section
@@ -24,15 +40,15 @@ export const Sidebar = () => {
         <ul>
           <li className='flex justify-between pb-4 border-b-2 border-b-grey-100'>
             <p>Paid Bills</p>
-            <p>2($320.00)</p>
+            <p>{countAndTotal(paid)}</p>
           </li>
           <li className='flex justify-between py-4 border-b-2 border-b-grey-100'>
             <p>Total Upcoming</p>
-            <p>6($1,220.00)</p>
+            <p>{countAndTotal(upcoming)}</p>
           </li>
           <li className='flex justify-between pt-4 text-red'>
             <p>Due Soon</p>
-            <p>2($40.00)</p>
+            <p>{countAndTotal(dueSoon)}</p>
           </li>
         </ul>
       </section>

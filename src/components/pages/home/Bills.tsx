@@ -1,4 +1,3 @@
-import { cn } from '../../../lib/utils';
 import { BillsProps, RecurringBillSummary } from './home.types';
 import SectionHeader from './SectionHeader';
 

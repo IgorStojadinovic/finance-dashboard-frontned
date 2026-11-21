@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Logo from '../../assets/images/Logo.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import HidePasswordIcon from '../../assets/images/icon-hide-password.svg';
@@ -16,34 +16,10 @@ const Login = () => {
   const navigate = useNavigate();
   const { mutate: login, isPending, error } = useLogin();
   const [formData, setFormData] = useState<Data>({
-    email: 'exampleuser@example.com',
-    password: 'Test1234',
+    email: 'test@example.com',
+    password: 'test1234',
   });
   const [showPassword, setShowPassword] = useState(false);
-
-  const notify = () => {
-    toast('Hey!', {
-      duration: 10000,
-      icon: '👋',
-      style: {
-        background: '#201F24',
-        color: '#fff',
-      },
-    });
-    toast(
-      'Site is currently in development, you can login with this test account: exampleuser@example.com / Test1234',
-      {
-        style: {
-          background: '#201F24',
-          color: '#fff',
-        },
-      }
-    );
-  };
-
-  useEffect(() => {
-    notify();
-  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,6 +64,9 @@ const Login = () => {
       >
         <section className='bg-white flex flex-col gap-8 mx-4 px-5 py-6 justify-center rounded-lg md:mx-26 md:px-8 md:py-8 xl:mx-35 2xl:mx-70'>
           <h2 className='text-preset-1'>Login</h2>
+          <p className='text-preset-5 text-grey-500'>
+            Use the test account below to explore the app.
+          </p>
 
           {error && (
             <div className='text-red-500 text-sm bg-red-50 p-3 rounded'>

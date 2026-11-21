@@ -1,52 +1,33 @@
-import { RecurringBill } from '../lib/types';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+import { RecurringBill } from '../lib/types/types';
+import { apiFetch } from './client';
 
 export const recurringBillsApi = {
-  getAll: (): Promise<RecurringBill[]> =>
-    fetch(`${API_BASE_URL}/recurring-bills`).then(res => res.json()),
+  getAll: () => apiFetch<RecurringBill[]>('/recurring-bills'),
 
-  getById: (id: string): Promise<RecurringBill> =>
-    fetch(`${API_BASE_URL}/recurring-bills/${id}`).then(res => res.json()),
+  getById: (id: string) => apiFetch<RecurringBill>(`/recurring-bills/${id}`),
 
-  getUserBills: (userId: string): Promise<RecurringBill[]> =>
-    fetch(`${API_BASE_URL}/recurring-bills/user/${userId}`).then(res =>
-      res.json()
+  getUserBills: (userId: string) =>
+    apiFetch<RecurringBill[]>(`/recurring-bills/user/${userId}`),
+
+  getByStatus: (userId: string, status: RecurringBill['status']) =>
+    apiFetch<RecurringBill[]>(
+      `/recurring-bills/user/${userId}/status/${status}`
     ),
 
-  getByStatus: (
-    userId: string,
-    status: RecurringBill['status']
-  ): Promise<RecurringBill[]> =>
-    fetch(
-      `${API_BASE_URL}/recurring-bills/user/${userId}/status/${status}`
-    ).then(res => res.json()),
-
-  getByMonth: (
-    userId: string,
-    year: number,
-    month: number
-  ): Promise<RecurringBill[]> =>
-    fetch(
-      `${API_BASE_URL}/recurring-bills/user/${userId}/month/${year}/${month}`
-    ).then(res => res.json()),
+  getByMonth: (userId: string, year: number, month: number) =>
+    apiFetch<RecurringBill[]>(
+      `/recurring-bills/user/${userId}/month/${year}/${month}`
+    ),
 
   create: (data: Omit<RecurringBill, 'id' | 'createdAt' | 'updatedAt'>) =>
-    fetch(`${API_BASE_URL}/recurring-bills`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).then(res => res.json()),
+    apiFetch<RecurringBill>('/recurring-bills', { method: 'POST', body: data }),
 
   update: (id: string, data: Partial<RecurringBill>) =>
-    fetch(`${API_BASE_URL}/recurring-bills/${id}`, {
+    apiFetch<RecurringBill>(`/recurring-bills/${id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).then(res => res.json()),
+      body: data,
+    }),
 
   delete: (id: string) =>
-    fetch(`${API_BASE_URL}/recurring-bills/${id}`, {
-      method: 'DELETE',
-    }).then(res => res.json()),
+    apiFetch<void>(`/recurring-bills/${id}`, { method: 'DELETE' }),
 };

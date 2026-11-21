@@ -1,38 +1,23 @@
-import { Budget } from '../lib/types';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+import { Budget, NewBudget } from '../lib/types/types';
+import { apiFetch } from './client';
 
 export const budgetsApi = {
-  getAll: (): Promise<Budget[]> =>
-    fetch(`${API_BASE_URL}/budgets`).then(res => res.json()),
+  getAll: () => apiFetch<Budget[]>('/budgets'),
 
-  getById: (id: string): Promise<Budget> =>
-    fetch(`${API_BASE_URL}/budgets/${id}`).then(res => res.json()),
+  getById: (id: string) => apiFetch<Budget>(`/budgets/${id}`),
 
-  getUserBudgets: (userId: string): Promise<Budget[]> =>
-    fetch(`${API_BASE_URL}/budgets/user/${userId}`).then(res => res.json()),
+  getUserBudgets: (userId: string) =>
+    apiFetch<Budget[]>(`/budgets/user/${userId}`),
 
-  getByCategory: (userId: string, category: string): Promise<Budget[]> =>
-    fetch(`${API_BASE_URL}/budgets/user/${userId}/category/${category}`).then(
-      res => res.json()
-    ),
+  getByCategory: (userId: string, category: string) =>
+    apiFetch<Budget[]>(`/budgets/user/${userId}/category/${category}`),
 
-  create: (data: Omit<Budget, 'id' | 'createdAt' | 'updatedAt'>) =>
-    fetch(`${API_BASE_URL}/budgets`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).then(res => res.json()),
+  create: (data: NewBudget) =>
+    apiFetch<Budget>('/budgets', { method: 'POST', body: data }),
 
   update: (id: string, data: Partial<Budget>) =>
-    fetch(`${API_BASE_URL}/budgets/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).then(res => res.json()),
+    apiFetch<Budget>(`/budgets/${id}`, { method: 'PUT', body: data }),
 
   delete: (id: string) =>
-    fetch(`${API_BASE_URL}/budgets/${id}`, {
-      method: 'DELETE',
-    }).then(res => res.json()),
+    apiFetch<void>(`/budgets/${id}`, { method: 'DELETE' }),
 };

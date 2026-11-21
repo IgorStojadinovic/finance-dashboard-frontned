@@ -1,31 +1,18 @@
 import { User } from '../lib/types/types';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL;
-//const API_DEV_URL = import.meta.env.VITE_API_DEV_URL;
+import { apiFetch } from './client';
 
 export const usersApi = {
-  getAll: (): Promise<User[]> =>
-    fetch(`${API_BASE_URL}/users`).then(res => res.json()),
+  getAll: () => apiFetch<User[]>('/users'),
 
-  getById: (id: string): Promise<User> =>
-    fetch(`${API_BASE_URL}/users/${id}`).then(res => res.json()),
+  getUser: (id: string) => apiFetch<User>(`/users/${id}`),
+
+  getById: (id: string) => apiFetch<User>(`/users/${id}`),
 
   create: (data: Omit<User, 'id' | 'createdAt' | 'updatedAt'>) =>
-    fetch(`${API_BASE_URL}/users`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).then(res => res.json()),
+    apiFetch<User>('/users', { method: 'POST', body: data }),
 
   update: (id: string, data: Partial<User>) =>
-    fetch(`${API_BASE_URL}/users/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).then(res => res.json()),
+    apiFetch<User>(`/users/${id}`, { method: 'PUT', body: data }),
 
-  delete: (id: string) =>
-    fetch(`${API_BASE_URL}/users/${id}`, {
-      method: 'DELETE',
-    }).then(res => res.json()),
+  delete: (id: string) => apiFetch<void>(`/users/${id}`, { method: 'DELETE' }),
 };

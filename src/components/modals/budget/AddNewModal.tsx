@@ -8,7 +8,7 @@ import {
   ModalColorTagsDropdown,
 } from '../../../ui';
 import { useBudgetStore } from '../../../lib/store/useBudgetStore';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useCreateBudget } from '../../../lib/hooks/useBudgets';
 import { CreatePot, NewBudget } from '../../../lib/types/types';
 import { useUserId } from '../../../lib/hooks/useGetUser';
@@ -159,12 +159,6 @@ const AddNewModal = ({ type }: AddNewModalProps) => {
       return updatedPot;
     });
   };
-  useEffect(() => {
-    if (addBudgetModalOpen && type === 'pot') {
-      resetNewPot();
-    }
-    // eslint-disable-next-line
-  }, [addBudgetModalOpen, type]);
 
   const handleCreateItem = () => {
     if (type === 'budget') {
@@ -280,7 +274,12 @@ const AddNewModal = ({ type }: AddNewModalProps) => {
   return (
     <>
       <Button
-        onClick={() => setAddBudgetModalOpen(true)}
+        onClick={() => {
+          if (type === 'pot') {
+            resetNewPot();
+          }
+          setAddBudgetModalOpen(true);
+        }}
         className='text-preset-4-bold bg-grey-900 rounded-md p-4 font-medium text-white hover:cursor-pointer'
       >
         Add New {type === 'budget' ? 'Budget' : 'Pot'}

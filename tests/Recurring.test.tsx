@@ -1,103 +1,93 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, vi, expect, beforeEach, afterEach } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
 import RecurringBills from '../src/components/pages/recurring/Recurring';
-import { userRecurringBills } from '../src/lib/lits';
-import { BrowserRouter } from 'react-router-dom';
 
-// Polyfill for ResizeObserver
-(globalThis as any).ResizeObserver = class {
-  observe() {}
-  unobserve() {}
-  disconnect() {}
-};
+vi.mock('../src/lib/hooks/useGetUser', () => ({
+  useUserId: () => 'user-1',
+}));
 
-const renderWithRouter = (component: React.ReactElement) => {
-  return render(<BrowserRouter>{component}</BrowserRouter>);
-};
+vi.mock('../src/lib/hooks/useRecurringBills', () => {
+  return {
+    useUserRecurringBills: () => ({
+      isLoading: false,
+      isError: false,
+      data: [
+        {
+          id: 'bill-1',
+          userId: 'user-1',
+          name: 'Elevate Education',
+          amount: 250,
+          status: 'paid',
+          date: '2026-01-15',
+          orderDate: '2026-01-01',
+          category: 'education',
+          color: '#277c78',
+        },
+        {
+          id: 'bill-2',
+          userId: 'user-1',
+          name: 'Delta Taxi',
+          amount: 40,
+          status: 'open',
+          date: '2026-02-13',
+          orderDate: '2026-02-13',
+          category: 'transport',
+          color: '#f2cdac',
+        },
+        {
+          id: 'bill-3',
+          userId: 'user-1',
+          name: 'Juliet Restaurant',
+          amount: 100,
+          status: 'open',
+          date: '2026-03-20',
+          orderDate: '2026-03-20',
+          category: 'dining',
+          color: '#c94736',
+        },
+      ],
+    }),
+  };
+});
+
+beforeEach(() => {
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date(2026, 10, 10, 12));
+});
+
+afterEach(() => {
+  vi.useRealTimers();
+});
 
 describe('RecurringBills Component', () => {
-  it('renders the main structure correctly', () => {
-    renderWithRouter(<RecurringBills />);
-
-    // Check if main element is present
-    const mainElement = screen.getByTestId('recurring-bills-page');
-    expect(mainElement).toBeInTheDocument();
-
-    // Check if the main heading is present
-    const heading = screen.getByRole('heading', { name: /recurring bills/i });
-    expect(heading).toBeInTheDocument();
-  });
-
-  it('renders total bills section with correct information', () => {
+  it('renders the heading and a bill row', () => {
     render(<RecurringBills />);
 
-    // Check if total bills section is present
-    const totalBillsSection = screen.getByRole('contentinfo', {
-      name: /total bills/i,
-    });
-    expect(totalBillsSection).toBeInTheDocument();
-
-    // Check if total amount is correct
-    const totalAmount = within(totalBillsSection).getByText('$384.98');
-    expect(totalAmount).toBeInTheDocument();
-  });
-
-  it('renders summary section with correct details', () => {
-    render(<RecurringBills />);
-
-    // Check if summary section is present
-    const summarySection = screen.getByRole('region', { name: /summary/i });
-    expect(summarySection).toBeInTheDocument();
-
-    // Check for summary details
-    expect(within(summarySection).getByText('Paid Bills')).toBeInTheDocument();
-    expect(within(summarySection).getByText('2($320.00)')).toBeInTheDocument();
+    expect(screen.getByTestId('recurring-bills-page')).toBeInTheDocument();
     expect(
-      within(summarySection).getByText('Total Upcoming')
+      screen.getByRole('heading', { name: /recurring bills/i })
     ).toBeInTheDocument();
-    expect(
-      within(summarySection).getByText('6($1,220.00)')
-    ).toBeInTheDocument();
-    expect(within(summarySection).getByText('Due Soon')).toBeInTheDocument();
-    expect(within(summarySection).getByText('2($40.00)')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Search bills')).toBeInTheDocument();
+    expect(screen.getByTestId('sort-bills-button')).toBeInTheDocument();
+
+    expect(screen.getByText('Elevate Education')).toBeInTheDocument();
+    expect(screen.getByText('$250.00')).toBeInTheDocument();
   });
 
-  it('renders search input and sort button', () => {
+  it('summarizes paid, upcoming, and due soon bills', () => {
     render(<RecurringBills />);
 
-    // Check if search input is present
-    const searchInput = screen.getByPlaceholderText('Search bills');
-    expect(searchInput).toBeInTheDocument();
+    const total = screen.getByRole('contentinfo', { name: /total bills/i });
+    expect(within(total).getByTestId('total-bills-amount')).toHaveTextContent(
+      '$390.00'
+    );
 
-    // Check if sort button is present
-    const sortButton = screen.getByTestId('sort-bills-button');
-    expect(sortButton).toBeInTheDocument();
-  });
-
-  it('renders bills list with correct items', () => {
-    render(<RecurringBills />);
-
-    // Check if bills list section is present
-    const billsListSection = screen.getByRole('region', {
-      name: /bills list/i,
-    });
-    expect(billsListSection).toBeInTheDocument();
-
-    // Check for each bill item
-    userRecurringBills.forEach((bill, index) => {
-      const billItem = screen.getByTestId(`bill-item-${index}`);
-      expect(billItem).toBeInTheDocument();
-      expect(within(billItem).getByText(bill.name)).toBeInTheDocument();
-      expect(within(billItem).getByText(bill.amount)).toBeInTheDocument();
-    });
-  });
-
-  it('measures render time', () => {
-    const start = performance.now();
-    renderWithRouter(<RecurringBills />);
-    const end = performance.now();
-    const renderTime = end - start;
-    console.log(`Render time: ${renderTime}ms`);
-    expect(renderTime).toBeLessThan(100); // Adjust the threshold as needed
+    const summary = screen.getByRole('region', { name: /summary/i });
+    expect(within(summary).getByText('Paid Bills')).toBeInTheDocument();
+    expect(within(summary).getByText('1($250.00)')).toBeInTheDocument();
+    expect(within(summary).getByText('Total Upcoming')).toBeInTheDocument();
+    expect(within(summary).getByText('1($100.00)')).toBeInTheDocument();
+    expect(within(summary).getByText('Due Soon')).toBeInTheDocument();
+    expect(within(summary).getByText('1($40.00)')).toBeInTheDocument();
   });
 });

@@ -1,51 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import { userRecurringBills } from '../../../lib/lits';
+import { useMemo, useState } from 'react';
 import TableRow from './TableRow';
 import TableNav from './TableNav';
-export default function Table() {
+import { RecurringBill } from '../../../lib/types/types';
+
+export default function Table({ bills }: { bills: RecurringBill[] }) {
   const [currentSort, setCurrentSort] = useState('latest');
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortedBills, setSortedBills] = useState(userRecurringBills);
 
-  const filterAndSortBills = (query: string, sortType: string) => {
-    const filteredArray = [...userRecurringBills].filter(bill =>
-      bill.name.toLowerCase().includes(query.toLowerCase())
+  const sortedBills = useMemo(() => {
+    const filtered = bills.filter(bill =>
+      bill.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    switch (sortType) {
+    const sorted = [...filtered];
+    switch (currentSort) {
       case 'latest':
-        return filteredArray.sort(
+        return sorted.sort(
           (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
         );
       case 'oldest':
-        return filteredArray.sort(
+        return sorted.sort(
           (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
         );
       case 'highest':
-        return filteredArray.sort(
-          (a, b) =>
-            parseFloat(b.amount.replace('$', '')) -
-            parseFloat(a.amount.replace('$', ''))
-        );
+        return sorted.sort((a, b) => b.amount - a.amount);
       case 'lowest':
-        return filteredArray.sort(
-          (a, b) =>
-            parseFloat(a.amount.replace('$', '')) -
-            parseFloat(b.amount.replace('$', ''))
-        );
+        return sorted.sort((a, b) => a.amount - b.amount);
       case 'a-z':
-        return filteredArray.sort((a, b) => a.name.localeCompare(b.name));
+        return sorted.sort((a, b) => a.name.localeCompare(b.name));
       case 'z-a':
-        return filteredArray.sort((a, b) => b.name.localeCompare(a.name));
+        return sorted.sort((a, b) => b.name.localeCompare(a.name));
       default:
-        return filteredArray;
+        return sorted;
     }
-  };
-
-  useEffect(() => {
-    const result = filterAndSortBills(searchQuery, currentSort);
-    setSortedBills(result);
-  }, [currentSort, searchQuery]);
+  }, [bills, currentSort, searchQuery]);
 
   return (
     <section
@@ -70,7 +58,7 @@ export default function Table() {
         </thead>
         <tbody>
           {sortedBills.map((item, index) => (
-            <TableRow key={index} item={item} index={index} />
+            <TableRow key={item.id} item={item} index={index} />
           ))}
         </tbody>
       </table>

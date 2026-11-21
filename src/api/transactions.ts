@@ -1,40 +1,23 @@
-import { Transaction } from '../lib/types';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+import { Transaction } from '../lib/types/types';
+import { apiFetch } from './client';
 
 export const transactionsApi = {
-  getAll: (): Promise<Transaction[]> =>
-    fetch(`${API_BASE_URL}/transactions`).then(res => res.json()),
+  getAll: () => apiFetch<Transaction[]>('/transactions'),
 
-  getById: (id: string): Promise<Transaction> =>
-    fetch(`${API_BASE_URL}/transactions/${id}`).then(res => res.json()),
+  getById: (id: string) => apiFetch<Transaction>(`/transactions/${id}`),
 
-  getUserTransactions: (userId: string): Promise<Transaction[]> =>
-    fetch(`${API_BASE_URL}/transactions/user/${userId}`).then(res =>
-      res.json()
-    ),
+  getTransactionsByUserId: (userId: string) =>
+    apiFetch<Transaction[]>(`/transactions/user/${userId}`),
 
   create: (data: Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>) =>
-    fetch(`${API_BASE_URL}/transactions`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).then(res => res.json()),
+    apiFetch<Transaction>('/transactions', { method: 'POST', body: data }),
 
   update: (id: string, data: Partial<Transaction>) =>
-    fetch(`${API_BASE_URL}/transactions/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).then(res => res.json()),
+    apiFetch<Transaction>(`/transactions/${id}`, { method: 'PUT', body: data }),
 
   delete: (id: string) =>
-    fetch(`${API_BASE_URL}/transactions/${id}`, {
-      method: 'DELETE',
-    }).then(res => res.json()),
+    apiFetch<void>(`/transactions/${id}`, { method: 'DELETE' }),
 
-  sortByCategory: (category: string): Promise<Transaction[]> =>
-    fetch(`${API_BASE_URL}/transactions/category/${category}`).then(res =>
-      res.json()
-    ),
+  sortByCategory: (category: string) =>
+    apiFetch<Transaction[]>(`/transactions/category/${category}`),
 };

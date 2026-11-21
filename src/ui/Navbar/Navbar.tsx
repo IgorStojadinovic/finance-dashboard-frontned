@@ -47,24 +47,8 @@ type NavItem = {
   activeIcon: string;
 };
 
-const Navbar = () => {
-  const { pathname } = useLocation();
-  const [isMinimized, setIsMinimized] = useState(false);
-  const navigate = useNavigate();
-  const logout = useLogout();
-
-  const handleLogout = () => {
-    logout.mutate(undefined, {
-      onSuccess: () => navigate('/', { replace: true }),
-      onSettled: () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        navigate('/', { replace: true });
-      },
-    });
-  };
-
-  const MobileNavItem = ({ item }: { item: NavItem }) => (
+function MobileNavItem({ item }: { item: NavItem }) {
+  return (
     <li className='relative w-1/3 h-10 flex flex-col items-center justify-center hover:bg-white rounded-t-lg group transition-all ease-in-out duration-100'>
       <Link to={item.path}>
         <img
@@ -76,8 +60,18 @@ const Navbar = () => {
       <div className='h-1 w-full bg-grey-900 absolute bottom-0 group-hover:bg-green' />
     </li>
   );
+}
 
-  const DesktopNavItem = ({ item }: { item: NavItem }) => (
+function DesktopNavItem({
+  item,
+  isMinimized,
+  pathname,
+}: {
+  item: NavItem;
+  isMinimized: boolean;
+  pathname: string;
+}) {
+  return (
     <li
       className={clsx(
         'relative rounded-r-lg h-10 flex items-center',
@@ -119,8 +113,10 @@ const Navbar = () => {
       </Link>
     </li>
   );
+}
 
-  const MobileNav = () => (
+function MobileNav() {
+  return (
     <nav className='bg-grey-900 px-10 pt-2 rounded-t-lg'>
       <ul className='flex justify-between'>
         {navItems.map(item => (
@@ -129,8 +125,20 @@ const Navbar = () => {
       </ul>
     </nav>
   );
+}
 
-  const DesktopNav = () => (
+function DesktopNav({
+  isMinimized,
+  pathname,
+  onToggle,
+  onLogout,
+}: {
+  isMinimized: boolean;
+  pathname: string;
+  onToggle: () => void;
+  onLogout: () => void;
+}) {
+  return (
     <div className='relative'>
       <nav
         className={clsx(
@@ -151,13 +159,18 @@ const Navbar = () => {
         <div className='flex flex-col justify-between flex-1 gap-6'>
           <ul className='flex flex-col gap-1 mb-auto'>
             {navItems.map(item => (
-              <DesktopNavItem key={item.path} item={item} />
+              <DesktopNavItem
+                key={item.path}
+                item={item}
+                isMinimized={isMinimized}
+                pathname={pathname}
+              />
             ))}
           </ul>
 
           <div className='mt-auto mb-20 flex flex-col gap-6'>
             <button
-              onClick={() => setIsMinimized(prev => !prev)}
+              onClick={onToggle}
               className={clsx(
                 'flex items-center cursor-pointer h-10 rounded-r-lg gap-4 py-2',
                 'hover:bg-white border-l-4 border-l-grey-900 hover:border-l-green',
@@ -182,7 +195,7 @@ const Navbar = () => {
 
             <div>
               <button
-                onClick={handleLogout}
+                onClick={onLogout}
                 className={clsx(
                   'group flex items-center w-full rounded-r-lg gap-4 py-2 px-10',
                   'hover:bg-white border-l-4 border-l-grey-900 hover:border-l-green',
@@ -232,6 +245,24 @@ const Navbar = () => {
       </nav>
     </div>
   );
+}
+
+const Navbar = () => {
+  const { pathname } = useLocation();
+  const [isMinimized, setIsMinimized] = useState(false);
+  const navigate = useNavigate();
+  const logout = useLogout();
+
+  const handleLogout = () => {
+    logout.mutate(undefined, {
+      onSuccess: () => navigate('/', { replace: true }),
+      onSettled: () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        navigate('/', { replace: true });
+      },
+    });
+  };
 
   return (
     <>
@@ -239,7 +270,12 @@ const Navbar = () => {
         <MobileNav />
       </div>
       <div className='xl:flex hidden'>
-        <DesktopNav />
+        <DesktopNav
+          isMinimized={isMinimized}
+          pathname={pathname}
+          onToggle={() => setIsMinimized(prev => !prev)}
+          onLogout={handleLogout}
+        />
       </div>
     </>
   );

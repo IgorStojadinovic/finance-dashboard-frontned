@@ -26,7 +26,7 @@ const Transactions = () => {
 
   useEffect(() => {
     setSearchInput('');
-  }, []);
+  }, [setSearchInput]);
 
   if (isLoading) return <Spinner />;
 

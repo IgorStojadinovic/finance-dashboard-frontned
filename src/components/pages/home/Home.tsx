@@ -7,10 +7,18 @@ import Bills from './Bills';
 
 const Home = () => {
   const userId = useUserId();
-  const { user, isLoading } = useGetUser(userId);
+  const { user, isLoading, error } = useGetUser(userId);
 
-  if (!user) {
+  if (isLoading) {
     return <Spinner />;
+  }
+
+  if (error || !user) {
+    return (
+      <main className='bg-beige-100 p-8' data-testid='home-page' role='main'>
+        <p>Could not load your overview.</p>
+      </main>
+    );
   }
 
   return (

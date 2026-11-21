@@ -1,17 +1,15 @@
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 import { cleanup } from '@testing-library/react';
 import { afterEach } from 'vitest';
-import { vi } from 'vitest';
 
-// Automatski čisti DOM nakon svakog testa
 afterEach(() => {
-    cleanup();
+  cleanup();
 });
 
-// Mock ResizeObserver
 class ResizeObserverMock {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
+  observe() {}
+  unobserve() {}
+  disconnect() {}
 }
 
+globalThis.ResizeObserver = ResizeObserverMock;
